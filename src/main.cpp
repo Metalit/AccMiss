@@ -15,9 +15,12 @@ Logger& getLogger() {
 #include "GlobalNamespace/ScoreModel_NoteScoreDefinition.hpp"
 
 using namespace GlobalNamespace;
+using namespace UnityEngine;
 
 int CalculateAccuracy(NoteCutInfo& noteCutInfo) {
 	auto definition = ScoreModel::GetNoteScoreDefinition(noteCutInfo.noteData->scoringType);
+    if(definition->maxCenterDistanceCutScore == 0)
+        return 15;
 	return round(definition->maxCenterDistanceCutScore * (1 - std::clamp(noteCutInfo.cutDistanceToCenter / 0.3, 0.0, 1.0)));
 }
 
@@ -48,10 +51,12 @@ MAKE_HOOK_MATCH(NoteController_SendNoteWasCutEvent, &NoteController::SendNoteWas
                 noteCutInfo->directionOK = false;
                 break;
             case 2:
-                UnityEngine::Resources::FindObjectsOfTypeAll<StandardLevelFailedController*>().First()->HandleLevelFailed();
+                if(auto controller = Resources::FindObjectsOfTypeAll<StandardLevelFailedController*>().FirstOrDefault())
+                    controller->HandleLevelFailed();
                 break;
             case 3:
-                UnityEngine::Resources::FindObjectsOfTypeAll<StandardLevelRestartController*>().First()->RestartLevel();
+                if(auto controller = Resources::FindObjectsOfTypeAll<StandardLevelRestartController*>().FirstOrDefault())
+                    controller->RestartLevel();
                 break;
             }
         }
