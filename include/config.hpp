@@ -9,4 +9,4 @@ DECLARE_CONFIG(Config,
     CONFIG_VALUE(Mistakes, int, "Allowed Mistakes", 0, "The number of mistakes that can occur with no action")
 )
 
-void ModSettings(class HMUI::ViewController* self, bool firstActivation, bool addedToHierarchy, bool screenSystemEnabling);
+void ModSettings(class UnityEngine::GameObject* gameObject, bool firstActivation);

@@ -80,7 +80,7 @@ extern "C" void load() {
     getConfig().Init(modInfo);
 
     QuestUI::Init();
-    QuestUI::Register::RegisterModSettingsViewController(modInfo, ModSettings);
+    QuestUI::Register::RegisterGameplaySetupMenu(modInfo, QuestUI::Register::MenuType::All, ModSettings);
 
     getLogger().info("Installing hooks...");
     INSTALL_HOOK(getLogger(), CoreGameHUDController_Start);

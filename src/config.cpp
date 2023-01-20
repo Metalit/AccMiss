@@ -3,7 +3,7 @@
 
 #include "questui/shared/BeatSaberUI.hpp"
 
-#include "HMUI/Touchable.hpp"
+#include "UnityEngine/GameObject.hpp"
 
 using namespace QuestUI;
 
@@ -14,16 +14,15 @@ const std::vector<std::string> actions = {
     "Restart"
 };
 
-void ModSettings(HMUI::ViewController* self, bool firstActivation, bool addedToHierarchy, bool screenSystemEnabling) {
+void ModSettings(UnityEngine::GameObject* gameObject, bool firstActivation) {
     if(!firstActivation)
         return;
 
-    self->get_gameObject()->AddComponent<HMUI::Touchable*>();
-
-    auto vertical = BeatSaberUI::CreateVerticalLayoutGroup(self);
+    auto vertical = BeatSaberUI::CreateVerticalLayoutGroup(gameObject);
     vertical->set_childControlHeight(false);
     vertical->set_childForceExpandHeight(false);
     vertical->set_spacing(1);
+    vertical->get_rectTransform()->set_anchoredPosition({0, 31});
 
     AddConfigValueToggle(vertical, getConfig().Enable);
 
